@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Walmart Gift Card</title>
   <style>
     body {
@@ -12,28 +12,24 @@
       color: #ffffff;
       padding: 0;
     }
-
     .header {
       background-color: #161b22;
-      padding: 20px;
-      text-align: center;
+      padding: 15px 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      text-align: center;
     }
-
     .header h1 {
       font-size: 22px;
       color: #facc15;
       margin: 0;
       font-weight: 600;
     }
-
     .container {
       max-width: 420px;
       width: 100%;
       margin: 0 auto;
       padding: 20px;
     }
-
     .card {
       background-color: #161b22;
       border-radius: 15px;
@@ -41,24 +37,18 @@
       overflow: hidden;
       margin-bottom: 20px;
     }
-
     .card img {
       width: 100%;
       height: auto;
-      display: block;
-      margin: auto;
     }
-
     .card-content {
       padding: 16px;
     }
-
     .title {
       font-size: 22px;
       font-weight: bold;
       margin-bottom: 10px;
     }
-
     .info {
       display: flex;
       justify-content: space-between;
@@ -67,30 +57,25 @@
       margin-bottom: 16px;
       color: #c9d1d9;
     }
-
     .tag {
       background-color: #30363d;
       padding: 5px 10px;
       border-radius: 8px;
     }
-
     .description {
       font-size: 15px;
       line-height: 1.6;
       color: #c9d1d9;
       margin-bottom: 16px;
     }
-
     .features {
       margin-bottom: 16px;
     }
-
     .features li {
       font-size: 14px;
       margin-bottom: 6px;
       color: #d1d5db;
     }
-
     .download-btn {
       display: block;
       width: 100%;
@@ -105,9 +90,39 @@
       transition: background 0.3s;
       margin-top: 10px;
     }
-
     .download-btn:hover {
       background: linear-gradient(to right, #0284c7, #2563eb);
+    }
+    .timer {
+      color: #f87171;
+      font-weight: bold;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .highlight-note {
+      background-color: #1f2937;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-left: 4px solid #facc15;
+      font-size: 14px;
+      color: #e5e7eb;
+    }
+    .testimonial {
+      background-color: #1f2937;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .testimonial img {
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .testimonial span {
+      vertical-align: middle;
     }
   </style>
 </head>
@@ -117,8 +132,14 @@
   </div>
 
   <div class="container">
+    <div class="highlight-note">
+      🔒 Exclusive online promotion – Not available on the official Walmart website!
+    </div>
+    
+    <p class="timer">⏳ Only 3 cards left • Offer ends in <span id="countdown">05:00</span></p>
+
     <div class="card">
-      <img src="https://raw.githubusercontent.com/jobsoffers/Walmart-gift-card/main/logo.png" alt="Job Offers Logo">
+      <img src="https://raw.githubusercontent.com/jobsoffers/Walmart-gift-card/refs/heads/main/logo.png" alt="Job Offers Logo">
       <div class="card-content">
         <div class="title">$100 Walmart Gift Card</div>
         <div class="info">
@@ -136,8 +157,42 @@
           <li>📩 Instant delivery to your inbox</li>
         </ul>
         <a href="https://installchecker.com/cl/i/qk7gn4" class="download-btn" target="_blank">Claim Your Card</a>
+
+        <!-- Testimonials -->
+        <div class="testimonial">
+          <img src="https://i.imgur.com/5c8C7K6.png" alt="User1">
+          <span>"Got my card in 2 minutes. Used it on groceries – perfect!"</span>
+        </div>
+        <div class="testimonial">
+          <img src="https://i.imgur.com/FjlV3ZY.png" alt="User2">
+          <span>"Didn’t believe it at first but it worked. Thank you!"</span>
+        </div>
+
+        <!-- Repeated CTA -->
+        <a href="https://installchecker.com/cl/i/qk7gn4" class="download-btn" target="_blank">🎯 Get My $100 Card</a>
       </div>
     </div>
   </div>
+
+  <script>
+    // Simple countdown timer 5 min
+    let minutes = 4;
+    let seconds = 59;
+    const timerElement = document.getElementById("countdown");
+
+    setInterval(() => {
+      if (seconds === 0) {
+        if (minutes === 0) return;
+        minutes--;
+        seconds = 59;
+      } else {
+        seconds--;
+      }
+
+      let m = minutes < 10 ? "0" + minutes : minutes;
+      let s = seconds < 10 ? "0" + seconds : seconds;
+      timerElement.innerText = `${m}:${s}`;
+    }, 1000);
+  </script>
 </body>
 </html>
