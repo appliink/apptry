@@ -1,176 +1,454 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Idle Tycoon Hub</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GameForge | Idle & Mods Hub</title>
+  <meta name="description" content="GameForge — a sleek hub for idle tycoon games, mods and quick-money builds. Discover, preview, and download safely." />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Social -->
+  <meta property="og:title" content="GameForge | Idle & Mods Hub">
+  <meta property="og:description" content="Sleek gamer hub for idle tycoon games, mods and quick-money builds.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1600&auto=format&fit=crop">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92 92'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2300fff7'/%3E%3Cstop offset='1' stop-color='%230099ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect rx='20' ry='20' width='92' height='92' fill='url(%23g)'/%3E%3Cpath d='M26 46h40' stroke='%23011' stroke-width='10' stroke-linecap='round'/%3E%3Ccircle cx='34' cy='34' r='5' fill='%23011'/%3E%3Ccircle cx='58' cy='58' r='5' fill='%23011'/%3E%3C/svg%3E" />
+
   <style>
-    /* Reset */
-    * {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif;}
+    /* ---------- Base / Reset ---------- */
+    *,*::before,*::after{box-sizing:border-box}
+    :root{
+      --bg:#0b0d12;
+      --panel:#0f131b;
+      --panel-2:#121826;
+      --text:#eaf1ff;
+      --muted:#9fb0c7;
+      --primary:#00fff7;
+      --secondary:#0099ff;
+      --accent:#39ff9e;
+      --ring: rgba(0,255,247,.25);
+      --radius:18px;
+      --shadow:0 20px 60px rgba(0,0,0,.55);
+      --maxw:1200px;
+    }
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    .container{max-width:var(--maxw);margin:0 auto;padding:0 20px}
 
-    body {
-      background-color: #0e0e10;
-      color: #fff;
-      line-height: 1.6;
+    /* ---------- Top Nav ---------- */
+    .nav{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:saturate(1.2) blur(10px);
+      background:linear-gradient(180deg,rgba(10,14,20,.9),rgba(10,14,20,.55) 60%,transparent);
+      border-bottom:1px solid rgba(255,255,255,.06);
     }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 6px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800}
+    .logo{width:38px;height:38px;border-radius:12px;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      display:grid;place-items:center;color:#032;box-shadow:0 0 0 8px rgba(0,255,247,.06),0 14px 34px rgba(0,153,255,.22)}
+    .nav a{color:var(--muted);font-size:14px;margin-left:14px}
+    .nav a:hover{color:var(--text)}
+    .cta{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#06121a;font-weight:800;padding:10px 14px;border-radius:999px;box-shadow:0 10px 30px rgba(0,153,255,.25)}
 
-    a {text-decoration: none; color: inherit;}
+    /* ---------- Hero ---------- */
+    .hero{
+      position:relative; overflow:hidden;
+      background:
+        radial-gradient(900px 400px at 75% -10%, #11224455 10%, transparent 60%),
+        radial-gradient(700px 300px at 10% -15%, #11335566 10%, transparent 60%),
+        linear-gradient(180deg,#0c1018,#0b0d12 40%);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .hero .wrap{display:grid;gap:18px;place-items:center;text-align:center;padding:64px 20px 36px}
+    .hero h1{
+      font-size:clamp(28px,6vw,54px);line-height:1.1;margin:0;
+      background:linear-gradient(90deg,#fff,var(--primary));
+      -webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p{color:var(--muted);margin:0;max-width:760px;font-size:clamp(14px,2.2vw,18px)}
+    .hero .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .hero .pill{
+      padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.1);color:var(--muted);font-size:12px}
+    .hero .cta-lg{margin-top:10px}
 
-    /* Header / Hero */
-    header {
-      background: linear-gradient(to right, #1b1b2f, #162447);
-      padding: 60px 20px;
-      text-align: center;
-    }
-    header h1 {
-      font-size: 2.8rem;
-      color: #00fff7;
-      text-shadow: 0 0 15px rgba(0,255,247,0.8);
-      margin-bottom: 15px;
-    }
-    header p {
-      font-size: 1.2rem;
-      color: #ccc;
-    }
+    /* ---------- Section Head ---------- */
+    .section{padding:26px 0 10px}
+    .section h2{
+      margin:0 0 10px;font-size:clamp(20px,3.2vw,28px);
+      letter-spacing:.2px}
+    .section p.lead{color:var(--muted);margin:0 0 18px}
 
-    /* Games Grid */
-    .games {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      padding: 60px 8%;
-    }
+    /* ---------- Grid Cards ---------- */
+    .grid{
+      display:grid;gap:18px;
+      grid-template-columns:repeat(12,1fr)}
+    .card{
+      grid-column:span 12;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);overflow:hidden;
+      box-shadow:var(--shadow);transition:.18s ease;position:relative;isolation:isolate}
+    .card:hover{transform:translateY(-4px);border-color:rgba(0,255,247,.25);box-shadow:0 30px 70px rgba(0,0,0,.55)}
+    .thumb-wrap{position:relative;background:#0a0f15}
+    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;filter:saturate(1.05) contrast(1.05)}
+    .badge{
+      position:absolute;left:12px;top:12px;background:rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.16);color:#fff;font-size:12px;border-radius:999px;padding:6px 10px}
+    .body{padding:14px 14px 16px;display:grid;gap:8px}
+    .title{font-size:18px;margin:0}
+    .desc{color:var(--muted);margin:0;min-height:44px}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+    .pill{padding:6px 10px;border-radius:999px;background:rgba(0,255,247,.08);border:1px solid rgba(0,255,247,.22)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;font-weight:800;border-radius:12px;padding:10px 14px;text-decoration:none}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#041015;box-shadow:0 10px 24px rgba(0,153,255,.25)}
+    .btn-ghost{color:var(--text);border:1px solid rgba(255,255,255,.12);background:transparent}
+    .spark::after{
+      content:"";position:absolute;right:10px;top:10px;width:10px;height:10px;border-radius:50%;
+      background:radial-gradient(circle at 30% 30%,#fff,var(--primary));box-shadow:0 0 30px var(--ring),0 0 0 6px rgba(0,255,247,.06);opacity:.85;pointer-events:none}
 
-    .game {
-      background: #1c1c22;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 25px rgba(0,0,0,0.6);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: flex;
-      flex-direction: column;
-    }
-    .game:hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 0 40px rgba(0,255,247,0.5);
-    }
-    .game img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-    .game:hover img {
-      transform: scale(1.05);
-    }
-    .game-content {
-      padding: 20px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .game h3 {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-      color: #00fff7;
-    }
-    .game p {
-      flex: 1;
-      font-size: 0.95rem;
-      color: #aaa;
-      margin-bottom: 20px;
-    }
-    .download-btn {
-      display: inline-block;
-      padding: 12px 25px;
-      border-radius: 25px;
-      background: linear-gradient(90deg, #00fff7, #0099ff);
-      color: #111;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      text-align: center;
-      box-shadow: 0 0 15px #00fff7, 0 0 30px #0099ff;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .download-btn:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 25px #00fff7, 0 0 45px #0099ff;
-    }
+    /* ---------- Responsive columns ---------- */
+    @media (min-width:640px){ .card{grid-column:span 6} }
+    @media (min-width:1024px){ .card{grid-column:span 3} }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: #111;
-      color: #666;
-      font-size: 0.9rem;
-    }
+    /* ---------- Footer ---------- */
+    footer{margin:28px 0 60px;color:var(--muted);border-top:1px solid rgba(255,255,255,.08);padding-top:16px}
+    .footer-links{display:flex;gap:16px;flex-wrap:wrap}
+    .footer-links a{color:var(--muted)}
+    .footer-links a:hover{color:var(--text)}
 
-    /* Responsive */
-    @media(max-width: 768px) {
-      header h1 { font-size: 2rem; }
-      .game img { height: 180px; }
-    }
+    /* ---------- Small helpers ---------- */
+    .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   </style>
 </head>
 <body>
 
-  <!-- Hero -->
-  <header>
-    <h1>Idle Tycoon Hub</h1>
-    <p>Discover and play the best Idle Tycoon games. Build your empire today!</p>
-  </header>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="nav-inner container">
+      <div class="brand">
+        <div class="logo">GF</div>
+        <div>GameForge</div>
+      </div>
+      <nav>
+        <a href="#games">Games</a>
+        <a href="#mods">Mods</a>
+        <a href="#money">Money Hacks</a>
+        <a class="cta" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </div>
 
-  <!-- Games Grid -->
-  <section class="games">
-
-    <!-- Idle Miner -->
-    <div class="game">
-      <img src="https://raw.githubusercontent.com/tryinggamess/TEST/main/logo.png" alt="Idle Miner Tycoon">
-      <div class="game-content">
-        <h3>Idle Miner Tycoon</h3>
-        <p>Manage your miners, expand your empire, and become the richest tycoon!</p>
-        <a href="https://appslocked.com/cl/i/qk7gn4" target="_blank" class="download-btn">Download</a>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap container">
+      <h1>Discover. Mod. Profit — Your Gaming Hub</h1>
+      <p>Hand-picked idle tycoon titles, money-boosting mods, and quick-cash builds — all in one slick store-style hub. Tap a game to download and start growing.</p>
+      <div class="row">
+        <span class="pill">No intrusive ads</span>
+        <span class="pill">Mobile first</span>
+        <span class="pill">Fast redirects</span>
+        <span class="pill">Safe & verified</span>
+      </div>
+      <div class="row">
+        <a class="btn btn-primary cta-lg" href="#games">🎮 Browse Games</a>
+        <a class="btn btn-ghost cta-lg" href="#mods">⚡ Explore Mods</a>
       </div>
     </div>
-
-    <!-- Prison Empire -->
-    <div class="game">
-      <img src="https://raw.githubusercontent.com/tryinggamess/TEST/main/unnamed.jpg" alt="Prison Empire Tycoon">
-      <div class="game-content">
-        <h3>Prison Empire Tycoon</h3>
-        <p>Build and control your own prison. Keep the order and grow your business.</p>
-        <a href="https://appverification.net/cl/i/xpvvkj" target="_blank" class="download-btn">Download</a>
-      </div>
-    </div>
-
-    <!-- Idle Police -->
-    <div class="game">
-      <img src="https://raw.githubusercontent.com/tryinggamess/TEST/main/i.jpeg" alt="Idle Police Tycoon">
-      <div class="game-content">
-        <h3>Idle Police Tycoon</h3>
-        <p>Run your police station, fight crime, and become the ultimate police chief.</p>
-        <a href="https://appinstallcheck.com/cl/i/1x55kk" target="_blank" class="download-btn">Download</a>
-      </div>
-    </div>
-
-    <!-- Barber Shop -->
-    <div class="game">
-      <img src="https://raw.githubusercontent.com/tryinggamess/TEST/main/IMG_20250816_000958.jpg" alt="Idle Barber Shop Tycoon">
-      <div class="game-content">
-        <h3>Idle Barber Shop Tycoon</h3>
-        <p>Style your clients, upgrade your barbershop, and grow your haircut empire.</p>
-        <a href="https://appverification.net/cl/i/o4xxd4" target="_blank" class="download-btn">Download</a>
-      </div>
-    </div>
-
   </section>
 
-  <!-- Footer -->
-  <footer>
-    © 2025 Idle Tycoon Hub. All rights reserved.
-  </footer>
+  <main class="container">
 
+    <!-- GAMES -->
+    <section id="games" class="section">
+      <h2>Featured Games</h2>
+      <p class="lead">Four proven idle/tycoon titles — optimized for conversions. Click image or “Download” to open your offer.</p>
+
+      <div class="grid">
+
+        <!-- Idle Miner Tycoon -->
+        <article class="card spark">
+          <div class="thumb-wrap">
+            <a href="https://appslocked.com/cl/i/qk7gn4" target="_blank" rel="nofollow noopener">
+              <img class="thumb" src="https://raw.githubusercontent.com/tryinggamess/TEST/main/logo.png" alt="Idle Miner Tycoon">
+            </a>
+            <span class="badge">Idle • Tycoon</span>
+          </div>
+          <div class="body">
+            <h3 class="title">Idle Miner Tycoon</h3>
+            <p class="desc">Automate shafts, hire managers, and scale globally. Optimize the flow and watch offline profits stack.</p>
+            <div class="meta">
+              <span class="pill">Offline progress</span>
+              <span class="pill">Beginner friendly</span>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="https://appslocked.com/cl/i/qk7gn4" target="_blank" rel="nofollow noopener">⬇️ Download</a>
+              <a class="btn btn-ghost" href="#mods">View Mods</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Prison Empire Tycoon -->
+        <article class="card spark">
+          <div class="thumb-wrap">
+            <a href="https://appverification.net/cl/i/xpvvkj" target="_blank" rel="nofollow noopener">
+              <img class="thumb" src="https://raw.githubusercontent.com/tryinggamess/TEST/main/unnamed.jpg" alt="Prison Empire Tycoon">
+            </a>
+            <span class="badge">Management</span>
+          </div>
+          <div class="body">
+            <h3 class="title">Prison Empire Tycoon</h3>
+            <p class="desc">Build secure blocks, manage staff, and keep balance between order and profit as you expand.</p>
+            <div class="meta">
+              <span class="pill">Strategy</span>
+              <span class="pill">Events & upgrades</span>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="https://appverification.net/cl/i/xpvvkj" target="_blank" rel="nofollow noopener">⬇️ Download</a>
+              <a class="btn btn-ghost" href="#mods">View Mods</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Idle Police Tycoon -->
+        <article class="card spark">
+          <div class="thumb-wrap">
+            <a href="https://appinstallcheck.com/cl/i/1x55kk" target="_blank" rel="nofollow noopener">
+              <img class="thumb" src="https://raw.githubusercontent.com/tryinggamess/TEST/main/i.jpeg" alt="Idle Police Tycoon">
+            </a>
+            <span class="badge">Simulation</span>
+          </div>
+          <div class="body">
+            <h3 class="title">Idle Police Tycoon</h3>
+            <p class="desc">Run departments, dispatch units, and upgrade facilities to protect the city — and your margins.</p>
+            <div class="meta">
+              <span class="pill">Tycoon</span>
+              <span class="pill">Progression</span>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="https://appinstallcheck.com/cl/i/1x55kk" target="_blank" rel="nofollow noopener">⬇️ Download</a>
+              <a class="btn btn-ghost" href="#mods">View Mods</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Idle Barber Shop Tycoon -->
+        <article class="card spark">
+          <div class="thumb-wrap">
+            <a href="https://appverification.net/cl/i/o4xxd4" target="_blank" rel="nofollow noopener">
+              <img class="thumb" src="https://raw.githubusercontent.com/tryinggamess/TEST/main/IMG_20250816_000958.jpg" alt="Idle Barber Shop Tycoon">
+            </a>
+            <span class="badge">Casual</span>
+          </div>
+          <div class="body">
+            <h3 class="title">Idle Barber Shop Tycoon</h3>
+            <p class="desc">Open chairs, satisfy customers, and chain new salons. Style meets margins in this cozy builder.</p>
+            <div class="meta">
+              <span class="pill">Upgrades</span>
+              <span class="pill">Chill loop</span>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="https://appverification.net/cl/i/o4xxd4" target="_blank" rel="nofollow noopener">⬇️ Download</a>
+              <a class="btn btn-ghost" href="#mods">View Mods</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- MODS -->
+    <section id="mods" class="section">
+      <h2>Popular Mods</h2>
+      <p class="lead">Money boosters, QoL tweaks, and time-savers. Add your mod entries here — copy a card and change image/link.</p>
+
+      <div class="grid">
+        <!-- Example Mod — replace '#' with your CPA or file link -->
+        <article class="card">
+          <div class="thumb-wrap">
+            <a href="#" target="_blank" rel="nofollow noopener">
+              <img class="thumb" src="https://images.unsplash.com/photo-1606117331085-5760e3b58520?q=80&w=1600&auto=format&fit=crop" alt="Idle Money Booster">
+            </a>
+            <span class="badge">Money Mod</span>
+          </div>
+          <div class="body">
+            <h3 class="title">Idle Money Booster (Universal)</h3>
+            <p class="desc">Balanced early-game boost for faster compounding. Safe steps, no root required.</p>
+            <div class="meta">
+              <span class="pill">No root</span><span class="pill">Step-by-step</span>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="#" target="_blank" rel="nofollow noopener">Get Mod</a>
+              <a class="btn btn-ghost" href="#money">See Money Builds</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb-wrap">
+            <a href="#" target="_blank" rel="nofollow noopener">
+              <img class="thumb" src="https://images.unsplash.com/photo-1605902711622-cfb43c4437a9?q=80&w=1600&auto=format&fit=crop" alt="Manager Auto-Click Presets">
+            </a>
+            <span class="badge">QoL</span>
+          </div>
+          <div class="body">
+            <h3 class="title">Manager Auto-Click Presets</h3>
+            <p class="desc">One-tap profiles to optimize production cycles in miner/police/prison setups.</p>
+            <div class="meta">
+              <span class="pill">Profiles</span><span class="pill">Importable</span>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="#" target="_blank" rel="nofollow noopener">Download</a>
+              <a class="btn btn-ghost" href="#games">Back to Games</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb-wrap">
+            <a href="#" target="_blank" rel="nofollow noopener">
+              <img class="thumb" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1600&auto=format&fit=crop" alt="Visual Enhancer">
+            </a>
+            <span class="badge">Visual</span>
+          </div>
+          <div class="body">
+            <h3 class="title">Visual Enhancer (HUD Lite)</h3>
+            <p class="desc">Cleaner UI overlays for idle loops. Crisp fonts, compact timers, zero clutter.</p>
+            <div class="meta">
+              <span class="pill">Lightweight</span><span class="pill">Clean UI</span>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="#" target="_blank" rel="nofollow noopener">Download</a>
+              <a class="btn btn-ghost" href="#games">Back</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- MONEY BUILDS -->
+    <section id="money" class="section">
+      <h2>Quick Money Builds</h2>
+      <p class="lead">Curated early-to-mid game setups focused on rapid cash flow. Perfect for CPA funnels around “fast money”.</p>
+
+      <div class="grid">
+        <article class="card">
+          <div class="thumb-wrap">
+            <a href="#" target="_blank" rel="nofollow noopener">
+              <img class="thumb" src="https://images.unsplash.com/photo-1581091014534-7d94c503d6d0?q=80&w=1600&auto=format&fit=crop" alt="Miner Early Compound">
+            </a>
+            <span class="badge">Idle Miner</span>
+          </div>
+          <div class="body">
+            <h3 class="title">Miner: Early Compound</h3>
+            <p class="desc">2× shafts + transport sync = stable compounding within minutes. Simple and scalable.</p>
+            <div class="meta"><span class="pill">Beginner</span><span class="pill">No spend</span></div>
+            <div class="actions">
+              <a class="btn btn-primary" href="https://appslocked.com/cl/i/qk7gn4" target="_blank" rel="nofollow noopener">Play Now</a>
+              <a class="btn btn-ghost" href="#games">Details</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb-wrap">
+            <a href="#" target="_blank" rel="nofollow noopener">
+              <img class="thumb" src="https://images.unsplash.com/photo-1526991902272-2803b399a4e6?q=80&w=1600&auto=format&fit=crop" alt="Prison Cash Flow">
+            </a>
+            <span class="badge">Prison Empire</span>
+          </div>
+          <div class="body">
+            <h3 class="title">Prison: Cash Flow First</h3>
+            <p class="desc">Upgrade intake & utilities before cells to unlock better hourly flow. Low risk, fast yield.</p>
+            <div class="meta"><span class="pill">Low risk</span><span class="pill">Flow-first</span></div>
+            <div class="actions">
+              <a class="btn btn-primary" href="https://appverification.net/cl/i/xpvvkj" target="_blank" rel="nofollow noopener">Play Now</a>
+              <a class="btn btn-ghost" href="#games">Details</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb-wrap">
+            <a href="#" target="_blank" rel="nofollow noopener">
+              <img class="thumb" src="https://images.unsplash.com/photo-1557800636-894a64c1696f?q=80&w=1600&auto=format&fit=crop" alt="Police Dispatch Loop">
+            </a>
+            <span class="badge">Idle Police</span>
+          </div>
+          <div class="body">
+            <h3 class="title">Police: Dispatch Loop</h3>
+            <p class="desc">Short cycles with synced upgrades. Keep dispatch busy for steady passive gains.</p>
+            <div class="meta"><span class="pill">Sync</span><span class="pill">Passive</span></div>
+            <div class="actions">
+              <a class="btn btn-primary" href="https://appinstallcheck.com/cl/i/1x55kk" target="_blank" rel="nofollow noopener">Play Now</a>
+              <a class="btn btn-ghost" href="#games">Details</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT / FOOTER -->
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <p class="lead">Questions or partnerships? Email: <a href="mailto:support@gameforge.gg">support@gameforge.gg</a></p>
+    </section>
+
+    <footer class="container">
+      <div class="footer-links">
+        <a href="#" data-open="privacy">Privacy</a>
+        <a href="#" data-open="terms">Terms</a>
+        <span>© <span id="y"></span> GameForge</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Privacy Modal -->
+  <dialog id="privacy" style="border:1px solid rgba(255,255,255,.15);background:#0f131b;color:#eaf1ff;border-radius:16px;max-width:760px;width:calc(100% - 32px);box-shadow:0 20px 60px rgba(0,0,0,.55);padding:20px">
+    <button class="btn-ghost" data-close style="float:right;border:1px solid rgba(255,255,255,.15);background:transparent;color:#fff;border-radius:10px;padding:6px 10px;cursor:pointer">Close</button>
+    <h3>Privacy Policy</h3>
+    <p style="color:#9fb0c7">We do not collect personal data beyond anonymous click counts for improving link quality. External offer pages have their own policies.</p>
+  </dialog>
+
+  <!-- Terms Modal -->
+  <dialog id="terms" style="border:1px solid rgba(255,255,255,.15);background:#0f131b;color:#eaf1ff;border-radius:16px;max-width:760px;width:calc(100% - 32px);box-shadow:0 20px 60px rgba(0,0,0,.55);padding:20px">
+    <button class="btn-ghost" data-close style="float:right;border:1px solid rgba(255,255,255,.15);background:transparent;color:#fff;border-radius:10px;padding:6px 10px;cursor:pointer">Close</button>
+    <h3>Terms of Use</h3>
+    <p style="color:#9fb0c7">By using our links you agree to be redirected to third-party stores or offer pages. We are not responsible for third-party content. All trademarks belong to their respective owners.</p>
+  </dialog>
+
+  <script>
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Open/close modals
+    const privacy = document.getElementById('privacy');
+    const terms = document.getElementById('terms');
+    document.querySelectorAll('[data-open]').forEach(a=>{
+      a.addEventListener('click',(e)=>{
+        e.preventDefault();
+        const id = a.getAttribute('data-open');
+        (id === 'privacy' ? privacy : terms).showModal();
+      });
+    });
+    document.querySelectorAll('[data-close]').forEach(btn=>{
+      btn.addEventListener('click',(e)=> e.target.closest('dialog').close());
+    });
+
+    // Lightweight click tracking (local only)
+    (function(){
+      const KEY = 'gf_clicks';
+      const store = JSON.parse(localStorage.getItem(KEY) || '{}');
+      function save(){ localStorage.setItem(KEY, JSON.stringify(store)); }
+      function track(name){ store[name] = (store[name]||0)+1; save(); }
+      document.querySelectorAll('.btn-primary, .thumb-wrap > a').forEach(el=>{
+        const name = (el.closest('.card')?.querySelector('.title')?.textContent || 'Offer').trim();
+        el.addEventListener('click',()=>track(name));
+      });
+      // window.gfStats.get() in console to view stored counts
+      window.gfStats = { get(){ return JSON.parse(localStorage.getItem(KEY)||'{}') }, reset(){ localStorage.removeItem(KEY) } };
+    })();
+  </script>
 </body>
 </html>
