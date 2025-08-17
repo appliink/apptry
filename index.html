@@ -5,92 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Idle Tycoon Hub</title>
   <style>
+    /* ===== Reset & General ===== */
+    * {margin: 0; padding: 0; box-sizing: border-box;}
     body {
-      margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
+      background: radial-gradient(circle at top, #0f0f1f, #050510 80%);
       color: #fff;
+      line-height: 1.6;
     }
 
-    header {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 20px;
+    /* ===== Hero Section ===== */
+    .hero {
+      height: 60vh;
+      background: url('https://cdn.cloudflare.steamstatic.com/steam/clusters/frontpage/7d12e4cbd94a0b8e8fbe0ac9/page_bg_english.jpg?t=1723896143') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      border-bottom: 2px solid #0ff;
+      color: #fff;
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 20px #00e6ff, 0 0 40px #0066ff;
+      margin-bottom: 15px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff;
-    }
-
+    /* ===== Games Section ===== */
     .games-section {
-      padding: 50px 20px;
+      padding: 60px 20px;
       max-width: 1200px;
       margin: auto;
     }
-
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 30px;
     }
-
     .game-card {
-      background: #1e1e2f;
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
       transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
     }
-
     .game-card:hover {
       transform: translateY(-10px);
       box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
     }
-
     .game-card img {
       width: 100%;
-      height: 200px;
-      object-fit: cover;
+      height: 220px;
+      object-fit: contain;
+      background: #000;
     }
-
     .game-card h3 {
       margin: 15px;
-      font-size: 1.3rem;
-      color: #0ff;
+      font-size: 1.4rem;
+      color: #00e6ff;
     }
-
     .game-card p {
       margin: 0 15px 20px;
       font-size: 0.95rem;
-      color: #ccc;
+      color: #bbb;
+      flex-grow: 1;
     }
-
     .download-btn {
       display: block;
       margin: 0 15px 20px;
-      padding: 12px;
+      padding: 14px;
       text-align: center;
-      background: linear-gradient(45deg, #0ff, #00f);
+      background: linear-gradient(45deg, #00e6ff, #0066ff);
       color: #fff;
       border-radius: 8px;
       text-decoration: none;
       font-weight: bold;
-      transition: background 0.3s;
+      transition: 0.3s;
     }
-
     .download-btn:hover {
-      background: linear-gradient(45deg, #00f, #0ff);
+      background: linear-gradient(45deg, #0066ff, #00e6ff);
     }
 
+    /* ===== Footer ===== */
     footer {
       text-align: center;
       padding: 20px;
       background: #0d0d1a;
-      border-top: 2px solid #0ff;
+      border-top: 2px solid #00e6ff;
       margin-top: 50px;
       font-size: 0.9rem;
       color: #888;
@@ -98,10 +116,15 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>Idle Tycoon Hub</h1>
-  </header>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Idle Tycoon Hub</h1>
+      <p>The ultimate hub for Idle Tycoon games and mods.</p>
+    </div>
+  </section>
 
+  <!-- Games Grid -->
   <section class="games-section">
     <div class="games-grid">
 
@@ -109,7 +132,7 @@
       <div class="game-card">
         <img src="https://raw.githubusercontent.com/tryinggamess/TEST/main/logo.png" alt="Idle Miner Tycoon">
         <h3>Idle Miner Tycoon</h3>
-        <p>Build your mining empire and earn cash while you're offline. Grow faster with unlimited fun!</p>
+        <p>Build your mining empire and earn cash while offline. Grow faster with unlimited fun!</p>
         <a class="download-btn" href="https://appslocked.com/cl/i/qk7gn4" target="_blank">Download</a>
       </div>
 
@@ -125,7 +148,7 @@
       <div class="game-card">
         <img src="https://raw.githubusercontent.com/tryinggamess/TEST/main/i.jpeg" alt="Idle Police Tycoon">
         <h3>Idle Police Tycoon</h3>
-        <p>Control the police department, solve crimes, and keep your city safe in this idle tycoon adventure.</p>
+        <p>Control the police department, solve crimes, and keep your city safe in this idle adventure.</p>
         <a class="download-btn" href="https://appinstallcheck.com/cl/i/1x55kk" target="_blank">Download</a>
       </div>
 
