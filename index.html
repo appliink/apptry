@@ -56,13 +56,19 @@
         border-radius: 8px;
         transition: transform 0.3s ease;
     }
-    .hero-btn:hover {
-        transform: scale(1.08);
-    }
+    .hero-btn:hover {transform: scale(1.08);}
     section {
         padding: 60px 20px;
         max-width: 1200px;
         margin: auto;
+    }
+    h2.section-title {
+        text-align:center;
+        margin-bottom:30px;
+        font-size:2rem;
+        background: linear-gradient(90deg,#00f5a0,#00d9f5);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
     }
     .games-grid {
         display: grid;
@@ -117,8 +123,62 @@
         text-decoration: none;
         transition: transform 0.25s;
     }
-    .download-btn:hover {
-        transform: scale(1.05);
+    .download-btn:hover {transform: scale(1.05);}
+
+    /* Testimonials */
+    .testimonials {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
+    .testimonial {
+        background: rgba(255,255,255,0.05);
+        padding: 20px;
+        border-radius: 14px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .testimonial img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-bottom: 12px;
+        border: 2px solid #00d9f5;
+    }
+    .testimonial h3 {
+        margin: 5px 0;
+        color: #00f5a0;
+    }
+    .testimonial p {
+        font-size: 0.9rem;
+        color: #ccc;
+        font-style: italic;
+    }
+
+    /* Ranking */
+    .ranking {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        max-width: 600px;
+        margin: auto;
+    }
+    .rank-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255,255,255,0.05);
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .rank-item span {
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+    .rank-item .stars {
+        color: gold;
+        font-size: 1.2rem;
     }
 </style>
 </head>
@@ -130,13 +190,10 @@
     <a href="#games" class="hero-btn">🎮 Explore Games</a>
 </header>
 
+<!-- Games -->
 <section id="games">
-    <h2 style="text-align:center; margin-bottom:30px; font-size:2rem; background: linear-gradient(90deg,#00f5a0,#00d9f5); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
-        Featured Games
-    </h2>
+    <h2 class="section-title">Featured Games</h2>
     <div class="games-grid">
-
-        <!-- Idle Miner Tycoon -->
         <div class="game-card">
             <a href="https://appslocked.com/cl/i/qk7gn4">
                 <img src="https://raw.githubusercontent.com/tryinggamess/TEST/main/logo.png" alt="Idle Miner Tycoon">
@@ -147,8 +204,6 @@
                 <a href="https://appslocked.com/cl/i/qk7gn4" class="download-btn">⬇️ Download</a>
             </div>
         </div>
-
-        <!-- Prison Empire Tycoon -->
         <div class="game-card">
             <a href="https://appverification.net/cl/i/xpvvkj">
                 <img src="https://raw.githubusercontent.com/tryinggamess/TEST/main/unnamed.jpg" alt="Prison Empire Tycoon">
@@ -159,8 +214,6 @@
                 <a href="https://appverification.net/cl/i/xpvvkj" class="download-btn">⬇️ Download</a>
             </div>
         </div>
-
-        <!-- Idle Police Tycoon -->
         <div class="game-card">
             <a href="https://appinstallcheck.com/cl/i/1x55kk">
                 <img src="https://raw.githubusercontent.com/tryinggamess/TEST/main/i.jpeg" alt="Idle Police Tycoon">
@@ -171,8 +224,6 @@
                 <a href="https://appinstallcheck.com/cl/i/1x55kk" class="download-btn">⬇️ Download</a>
             </div>
         </div>
-
-        <!-- Idle Barber Shop Tycoon -->
         <div class="game-card">
             <a href="https://appverification.net/cl/i/o4xxd4">
                 <img src="https://raw.githubusercontent.com/tryinggamess/TEST/main/IMG_20250816_000958.jpg" alt="Idle Barber Shop Tycoon">
@@ -183,7 +234,51 @@
                 <a href="https://appverification.net/cl/i/o4xxd4" class="download-btn">⬇️ Download</a>
             </div>
         </div>
+    </div>
+</section>
 
+<!-- Testimonials -->
+<section>
+    <h2 class="section-title">What Players Say</h2>
+    <div class="testimonials">
+        <div class="testimonial">
+            <img src="https://i.pravatar.cc/60?img=1" alt="user">
+            <h3>Sara</h3>
+            <p>"This hub made it so easy to find the best idle games. Highly addictive and super fun!"</p>
+        </div>
+        <div class="testimonial">
+            <img src="https://i.pravatar.cc/60?img=5" alt="user">
+            <h3>Adam</h3>
+            <p>"Prison Empire Tycoon is my favorite. The design of this site is clean and professional!"</p>
+        </div>
+        <div class="testimonial">
+            <img src="https://i.pravatar.cc/60?img=7" alt="user">
+            <h3>Mona</h3>
+            <p>"I love how easy it is to download and explore games. Totally recommend this site!"</p>
+        </div>
+    </div>
+</section>
+
+<!-- Ranking -->
+<section>
+    <h2 class="section-title">Top Ranked Games</h2>
+    <div class="ranking">
+        <div class="rank-item">
+            <span>🏆 Idle Miner Tycoon</span>
+            <span class="stars">★★★★★</span>
+        </div>
+        <div class="rank-item">
+            <span>🥈 Prison Empire Tycoon</span>
+            <span class="stars">★★★★☆</span>
+        </div>
+        <div class="rank-item">
+            <span>🥉 Idle Police Tycoon</span>
+            <span class="stars">★★★★☆</span>
+        </div>
+        <div class="rank-item">
+            <span>💈 Idle Barber Shop Tycoon</span>
+            <span class="stars">★★★☆☆</span>
+        </div>
     </div>
 </section>
 
