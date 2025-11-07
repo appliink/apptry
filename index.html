@@ -1,327 +1,623 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Beauty & Fashion Deals</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BoxWin - Unbox the Best Deals</title>
+  <meta name="description" content="BoxWin - curated affiliate deals. Search products, filter by category, and buy via affiliate links.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+    :root{
+      --bg1:#667eea;--bg2:#764ba2;
+      --accent1:#ff6b6b;--accent2:#4ecdc4;
+      --surface:#fff;--muted:#6b7280;--text:#111827;
+      --glass:rgba(255,255,255,0.85);
+      --radius-lg:24px;--radius-md:12px;--maxw:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    body{
+      background:linear-gradient(135deg,var(--bg1),var(--bg2),#f093fb);
+      color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+      min-height:100%;
     }
 
-    body {
-      background-color: #fff;
-      color: #333;
-      line-height: 1.6;
-      overflow-x: hidden;
+    header.site-header{
+      position:sticky;top:0;z-index:60;
+      background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.85));
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(0,0,0,0.06);
+    }
+    .nav{
+      max-width:var(--maxw);margin:0 auto;padding:12px 20px;
+      display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    }
+    .brand{display:flex;gap:12px;align-items:center;text-decoration:none;color:inherit}
+    .logo-icon{
+      width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      color:white;font-weight:900;font-size:20px;box-shadow:0 6px 22px rgba(0,0,0,0.15);
+    }
+    .brand h1{
+      font-size:20px;margin:0;font-weight:800;
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      -webkit-background-clip:text;color:transparent;
+    }
+    .search-wrap{flex:1;min-width:240px;max-width:640px;position:relative}
+    .search-input{
+      width:100%;padding:12px 48px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);
+      background:var(--surface);font-size:15px;box-shadow:0 6px 20px rgba(2,6,23,0.08);
+      outline:none;transition:box-shadow .18s,border-color .18s;
+    }
+    .search-input:focus{box-shadow:0 10px 30px rgba(2,6,23,0.12);border-color:var(--accent1)}
+    .search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted)}
+    .nav-actions{display:flex;gap:10px;align-items:center;flex-shrink:0}
+    .cta-btn{
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      color:white;border:none;padding:10px 18px;border-radius:999px;
+      font-weight:700;cursor:pointer;box-shadow:0 8px 25px rgba(255,107,107,0.25);
+    }
+    .hamburger{
+      width:44px;height:44px;border-radius:10px;display:grid;place-items:center;
+      background:var(--surface);border:1px solid rgba(0,0,0,0.04);cursor:pointer;
     }
 
-    header {
-      background: #f7f7f7;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px 25px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+    main{max-width:var(--maxw);margin:28px auto;padding:0 20px 80px;display:grid;gap:28px}
+    .hero{
+      display:flex;flex-direction:column;gap:18px;padding:36px;border-radius:var(--radius-lg);
+      background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));
+      backdrop-filter:blur(6px);
+    }
+    .hero h2{margin:0;font-size:40px;color:white;line-height:1.05;font-weight:900}
+    .hero p{margin:0;color:rgba(255,255,255,0.9);font-size:16px}
+    .hero .actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:6px}
+
+    .categories-drawer{
+      position:fixed;top:84px;right:20px;z-index:80;width:320px;max-width:85vw;padding:18px;border-radius:16px;
+      background:linear-gradient(180deg,var(--glass),rgba(255,255,255,0.75));
+      box-shadow:0 12px 45px rgba(15,23,42,0.2);
+      transform:translateY(-10px);opacity:0;pointer-events:none;
+      transition:all .22s ease;border:1px solid rgba(0,0,0,0.06);
+    }
+    .categories-drawer.open{transform:translateY(0);opacity:1;pointer-events:auto}
+    .categories-grid{display:flex;flex-wrap:wrap;gap:10px}
+    .cat-btn{padding:8px 12px;border-radius:999px;background:white;border:1px solid rgba(0,0,0,0.06);cursor:pointer;font-weight:600}
+
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .product-card{
+      background:var(--surface);border-radius:16px;padding:14px;
+      border:1px solid rgba(2,6,23,0.04);box-shadow:0 12px 30px rgba(2,6,23,0.05);
+      display:flex;flex-direction:column;gap:10px;
+    }
+    .product-card img{width:100%;height:160px;object-fit:cover;border-radius:12px}
+    .product-meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .product-title{font-weight:800;margin:0;font-size:16px}
+    .product-desc{margin:0;color:var(--muted);font-size:13px}
+    .product-actions{display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap}
+    .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);cursor:pointer;background:#fff;font-weight:700}
+    .btn-primary{background:linear-gradient(135deg,var(--accent1),var(--accent2));color:white;border:none}
+    .results-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    .muted{color:var(--muted)}
+    footer{max-width:var(--maxw);margin:0 auto;padding:40px 20px 80px;color:white;text-align:center}
+    footer .small{opacity:0.8;font-size:14px;margin-top:8px}
+
+    /* --- Responsive tweaks --- */
+    @media (max-width:900px){
+      .nav{padding:10px 14px;gap:10px}
+      .brand h1{font-size:18px}
+      .search-wrap{order:3;width:100%}
+      .hero h2{font-size:28px}
+      .cta-btn{padding:8px 14px;font-size:14px}
+      .categories-drawer{top:74px;right:10px;left:10px;width:auto}
+    }
+    @media (max-width:600px){
+      .hero{padding:22px}
+      .hero h2{font-size:24px}
+      .hero p{font-size:14px}
+      .product-card img{height:140px}
+      .product-title{font-size:15px}
+      .nav{flex-direction:row;flex-wrap:wrap}
+      .brand{flex:1 0 100%;justify-content:center}
+      .nav-actions{flex:1 0 100%;justify-content:center}
+    }
+  </style>
+</head>
+<body>
+  <!-- نفس الكود من HTML و JavaScript بدون أي تعديل -->
+  <!-- الصق فقط كل الكود السابق هنا كما هو -->
+  <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BoxWin - Unbox the Best Deals</title>
+  <meta name="description" content="BoxWin - curated affiliate deals. Search products, filter by category, and buy via affiliate links.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #667eea;
+      --bg2: #764ba2;
+      --accent1: #ff6b6b;
+      --accent2: #4ecdc4;
+      --surface: #ffffff;
+      --muted: #6b7280;
+      --text: #111827;
+      --glass: rgba(255,255,255,0.85);
+      --radius-lg: 24px;
+      --radius-md: 12px;
+      --maxw: 1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    body{
+      background: linear-gradient(135deg,var(--bg1) 0%, var(--bg2) 50%, #f093fb 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      min-height:100%;
     }
 
-    .logo {
-      font-size: 1.5em;
-      font-weight: bold;
-      color: #e91e63;
+    /* Header */
+    header.site-header{
+      position:sticky;top:0;z-index:60;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav{
+      max-width:var(--maxw);margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px;
+    }
+    .brand{display:flex;gap:12px;align-items:center;text-decoration:none;color:inherit}
+    .logo-icon{
+      width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      color:white;font-weight:900;font-size:20px;box-shadow:0 6px 22px rgba(0,0,0,0.15)
+    }
+    .brand h1{font-size:20px;margin:0;font-weight:800;background:linear-gradient(135deg,var(--accent1),var(--accent2));-webkit-background-clip:text;color:transparent}
+    .search-wrap{flex:1;max-width:640px;position:relative}
+    .search-input{
+      width:100%;padding:12px 48px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);
+      background:var(--surface);font-size:15px;box-shadow:0 6px 20px rgba(2,6,23,0.08);
+      outline:none;transition:box-shadow .18s, border-color .18s;
+    }
+    .search-input:focus{box-shadow:0 10px 30px rgba(2,6,23,0.12);border-color:var(--accent1)}
+    .search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted)}
+    .nav-actions{display:flex;gap:12px;align-items:center}
+    .cta-btn{
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      color:white;border:none;padding:10px 18px;border-radius:999px;font-weight:700;cursor:pointer;box-shadow:0 8px 25px rgba(255,107,107,0.25)
     }
 
-    .search-bar {
-      flex: 1;
-      max-width: 500px;
-      margin: 0 20px;
+    /* Hamburger (categories drawer toggle) */
+    .hamburger{
+      width:46px;height:46px;border-radius:10px;display:grid;place-items:center;background:var(--surface);border:1px solid rgba(0,0,0,0.04);cursor:pointer;
     }
 
-    .search-bar input {
-      width: 100%;
-      padding: 10px 15px;
-      border: 1px solid #ccc;
-      border-radius: 25px;
-      font-size: 1em;
+    /* Main layout */
+    main{max-width:var(--maxw);margin:28px auto;padding:0 20px 80px;display:grid;grid-template-columns:1fr;gap:28px}
+    .hero{display:flex;flex-direction:column;gap:18px;padding:36px;border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));backdrop-filter: blur(6px);}
+    .hero h2{margin:0;font-size:40px;color:white;line-height:1.05;font-weight:900}
+    .hero p{margin:0;color:rgba(255,255,255,0.9);font-size:16px}
+    .hero .actions{display:flex;gap:12px;align-items:center;margin-top:6px}
+
+    /* Categories slider (top-right drawer) */
+    .categories-drawer{
+      position:fixed;top:84px;right:20px;z-index:80;width:320px;max-width:85vw;padding:18px;border-radius:16px;
+      background:linear-gradient(180deg,var(--glass),rgba(255,255,255,0.75));box-shadow:0 12px 45px rgba(15,23,42,0.2);
+      transform:translateY(-10px);opacity:0;pointer-events:none;transition:all .22s ease;
+      border:1px solid rgba(0,0,0,0.06)
     }
+    .categories-drawer.open{transform:translateY(0);opacity:1;pointer-events:auto}
+    .categories-grid{display:flex;flex-wrap:wrap;gap:10px}
+    .cat-btn{padding:8px 12px;border-radius:999px;background:white;border:1px solid rgba(0,0,0,0.06);cursor:pointer;font-weight:600}
 
-    .menu-icon {
-      display: none;
-      font-size: 1.8em;
-      cursor: pointer;
-    }
+    /* Products grid */
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .product-card{background:var(--surface);border-radius:16px;padding:14px;border:1px solid rgba(2,6,23,0.04);box-shadow:0 12px 30px rgba(2,6,23,0.05);display:flex;flex-direction:column;gap:10px}
+    .product-card img{width:100%;height:160px;object-fit:cover;border-radius:12px}
+    .product-meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .product-title{font-weight:800;margin:0;font-size:16px}
+    .product-desc{margin:0;color:var(--muted);font-size:13px}
+    .product-actions{display:flex;gap:8px;align-items:center;margin-top:6px}
+    .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);cursor:pointer;background:#fff;font-weight:700}
+    .btn-primary{background:linear-gradient(135deg,var(--accent1),var(--accent2));color:white;border:none}
 
-    .categories {
-      position: fixed;
-      top: 0;
-      left: -250px;
-      width: 220px;
-      height: 100%;
-      background: #fff;
-      box-shadow: 2px 0 6px rgba(0,0,0,0.1);
-      padding: 20px;
-      transition: left 0.3s ease;
-      z-index: 2000;
-    }
+    /* Empty state / results header */
+    .results-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .muted{color:var(--muted)}
 
-    .categories.active {
-      left: 0;
-    }
+    footer{max-width:var(--maxw);margin:0 auto;padding:40px 20px 80px;color:white;text-align:center}
+    footer .small{opacity:0.8;font-size:14px;margin-top:8px}
 
-    .categories h3 {
-      margin-bottom: 15px;
-      color: #e91e63;
-    }
-
-    .categories ul {
-      list-style: none;
-    }
-
-    .categories ul li {
-      margin-bottom: 10px;
-    }
-
-    .categories ul li a {
-      text-decoration: none;
-      color: #333;
-      font-size: 1em;
-      transition: color 0.2s;
-    }
-
-    .categories ul li a:hover {
-      color: #e91e63;
-    }
-
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.4);
-      z-index: 1500;
-    }
-
-    .overlay.active {
-      display: block;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 60px 20px;
-      background: linear-gradient(135deg, #f8bbd0, #fce4ec);
-    }
-
-    .hero h1 {
-      font-size: 2.5em;
-      color: #e91e63;
-    }
-
-    .hero p {
-      margin-top: 10px;
-      font-size: 1.1em;
-      color: #555;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 40px 20px;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .product {
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
-      transition: transform 0.2s ease;
-    }
-
-    .product:hover {
-      transform: translateY(-5px);
-    }
-
-    .product img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
-
-    .product-content {
-      padding: 15px;
-      text-align: center;
-    }
-
-    .product-content h3 {
-      color: #333;
-      font-size: 1.2em;
-      margin-bottom: 10px;
-    }
-
-    .product-content p {
-      color: #777;
-      font-size: 0.95em;
-      margin-bottom: 15px;
-    }
-
-    .product-content a {
-      background: #e91e63;
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .product-content a:hover {
-      background: #d81b60;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #f7f7f7;
-      font-size: 0.9em;
-      color: #777;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .search-bar {
-        display: none;
-      }
-
-      .menu-icon {
-        display: block;
-      }
-
-      header {
-        justify-content: space-between;
-      }
-
-      .hero h1 {
-        font-size: 2em;
-      }
-
-      .products {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero {
-        padding: 40px 15px;
-      }
-
-      .hero h1 {
-        font-size: 1.6em;
-      }
-
-      .hero p {
-        font-size: 0.9em;
-      }
-
-      .products {
-        grid-template-columns: 1fr;
-      }
+    /* Responsive */
+    @media (max-width:900px){
+      .nav{padding:10px 14px}
+      .hero h2{font-size:28px}
+      .categories-drawer{right:10px;left:10px;top:74px}
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="menu-icon" id="menuBtn">&#9776;</div>
-    <div class="logo">BeautyDeals</div>
-    <div class="search-bar">
-      <input type="text" placeholder="Search for products..." />
-    </div>
+  <header class="site-header" aria-label="Top navigation">
+    <nav class="nav" role="navigation">
+      <a class="brand" href="#" aria-label="BoxWin home" onclick="scrollToTop(event)">
+        <div class="logo-icon">📦</div>
+        <h1>BoxWin</h1>
+      </a>
+
+      <div class="search-wrap" role="search">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <input id="searchBar" class="search-input" type="search" placeholder="Search products, e.g. 'vitamin C serum' — press Enter" aria-label="Search products">
+      </div>
+
+      <div class="nav-actions" role="toolbar">
+        <button class="hamburger" id="openCategories" title="Categories" aria-expanded="false" aria-controls="categoriesDrawer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="cta-btn" id="ctaShop">Start Shopping</button>
+      </div>
+    </nav>
   </header>
 
-  <div class="categories" id="categoriesMenu">
-    <h3>Categories</h3>
-    <ul>
-      <li><a href="#">Health</a></li>
-      <li><a href="#">Beauty</a></li>
-      <li><a href="#">Fashion</a></li>
-      <li><a href="#">Skincare</a></li>
-      <li><a href="#">Fitness</a></li>
-      <li><a href="#">Makeup</a></li>
-    </ul>
-  </div>
-
-  <div class="overlay" id="overlay"></div>
-
-  <section class="hero">
-    <h1>Get the Best Beauty & Fashion Deals</h1>
-    <p>Exclusive offers for women who love style, health, and confidence.</p>
-  </section>
-
-  <section class="products">
-    <div class="product">
-      <img src="https://via.placeholder.com/300x220" alt="Product 1" />
-      <div class="product-content">
-        <h3>Beauty Glow Serum</h3>
-        <p>Reveal your natural glow with this organic serum.</p>
-        <a href="#">Shop Now</a>
-      </div>
+  <!-- categories drawer -->
+  <aside id="categoriesDrawer" class="categories-drawer" aria-hidden="true">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <strong style="font-size:16px">Categories</strong>
+      <button id="closeCategories" class="btn" aria-label="close categories">Close</button>
     </div>
-
-    <div class="product">
-      <img src="https://via.placeholder.com/300x220" alt="Product 2" />
-      <div class="product-content">
-        <h3>Luxury Skin Cream</h3>
-        <p>Hydrate and protect your skin with premium ingredients.</p>
-        <a href="#">Shop Now</a>
-      </div>
+    <div class="categories-grid" id="categoriesList">
+      <!-- Buttons injected by JS -->
     </div>
-
-    <div class="product">
-      <img src="https://via.placeholder.com/300x220" alt="Product 3" />
-      <div class="product-content">
-        <h3>Fashion Bag</h3>
-        <p>Elegant and stylish handbag perfect for any occasion.</p>
-        <a href="#">Shop Now</a>
-      </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="showAll">Show All</button>
+      <button class="btn" id="shuffleProducts">Shuffle</button>
     </div>
+  </aside>
 
-    <div class="product">
-      <img src="https://via.placeholder.com/300x220" alt="Product 4" />
-      <div class="product-content">
-        <h3>Makeup Essentials Kit</h3>
-        <p>Everything you need for a flawless daily look.</p>
-        <a href="#">Shop Now</a>
+  <main>
+    <section class="hero" aria-labelledby="heroTitle">
+      <div>
+        <h2 id="heroTitle">Discover Amazing Products</h2>
+        <p id="heroSubtitle">Curated deals from ClickBank and other affiliate partners — search, filter, and buy with confidence.</p>
       </div>
-    </div>
-  </section>
+      <div class="actions">
+        <button class="btn btn-primary" id="heroCTA">Browse Trending</button>
+        <div class="muted" style="margin-left:auto">Free shipping badges shown where available</div>
+      </div>
+    </section>
+
+    <section aria-live="polite" id="resultsSection">
+      <div class="results-head" style="margin-bottom:12px">
+        <div>
+          <h3 id="resultsTitle" style="margin:0">Top Picks</h3>
+          <div class="muted" id="resultsMeta">Showing curated products</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="muted" id="resultCount">—</span>
+        </div>
+      </div>
+
+      <div id="productsGrid" class="products-grid">
+        <!-- product cards injected here -->
+      </div>
+
+      <div id="emptyState" style="display:none;margin-top:18px;padding:18px;border-radius:12px;background:rgba(255,255,255,0.9)">
+        <strong>No results.</strong>
+        <p class="muted" style="margin:6px 0 0">Try different keywords or remove category filters.</p>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    &copy; 2025 BeautyDeals. All rights reserved.
+    <div style="font-weight:800;font-size:18px">© <span id="year"></span> BoxWin</div>
+    <div class="small">Made for affiliate marketing — add your ClickBank or partner links to product entries.</div>
   </footer>
 
-  <script>
-    const menuBtn = document.getElementById('menuBtn');
-    const categoriesMenu = document.getElementById('categoriesMenu');
-    const overlay = document.getElementById('overlay');
+<script>
+/*
+  PRODUCTS DATA
+  - Edit / add product objects here.
+  - Each product should include: id, title, description, category, image (url or base64), affiliate_link
+  - affiliate_link MUST be a fully qualified URL (https://...).
+  - Example: { id: 'p1', title: 'Vitamin C Serum', category: 'Health & Beauty', ... }
+*/
+const products = [
+  {
+    id: 'p1',
+    title: 'Vitamin C Glow Serum',
+    description: 'Brightening serum for radiant skin — 30ml. Clinically-inspired ingredients.',
+    category: 'Health & Beauty',
+    price: '$19.99',
+    image: 'https://images.unsplash.com/photo-1600180758890-2be7b0c7efbb?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=5d7b6b8e7f46aeb1a9e7b5b2d8bcf4f4',
+    affiliate_link: 'https://www.example-affiliate.com/track?product=vitc' // replace with your ClickBank link
+  },
+  {
+    id: 'p2',
+    title: 'Travel Organizer Bag - Compact',
+    description: 'Keep your travel essentials tidy. TSA-friendly compartments.',
+    category: 'Travel',
+    price: '$24.50',
+    image: 'https://images.unsplash.com/photo-1541534401786-0b6f2b9f13f5?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=8f3ae8b3e4b970d7b3f6e2b3c2a9d0c6',
+    affiliate_link: 'https://www.example-affiliate.com/track?product=travelbag'
+  },
+  {
+    id: 'p3',
+    title: "Men's Classic Leather Belt",
+    description: 'Premium leather belt for everyday wear. Sizes S-XL.',
+    category: "Men's Style",
+    price: '$29.00',
+    image: 'https://images.unsplash.com/photo-1519741491636-226b5c0200c4?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=cf4a0b3b5fd6f3c5b6d4f1a3b2c1e9a8',
+    affiliate_link: 'https://www.example-affiliate.com/track?product=belt'
+  },
+  {
+    id: 'p4',
+    title: 'Women\'s Summer Dress - Floral',
+    description: 'Lightweight and flowy summer dress in multiple colors.',
+    category: "Women's Fashion",
+    price: '$34.99',
+    image: 'https://images.unsplash.com/photo-1534850336045-c7b6f4d9d9b1?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1a2b3c4d5e6f7a8b9c0d',
+    affiliate_link: 'https://www.example-affiliate.com/track?product=dress'
+  },
+  {
+    id: 'p5',
+    title: 'Kids Plush Toy - Dino',
+    description: 'Soft, washable plush toy for toddlers. Machine-washable.',
+    category: 'Kids & Baby',
+    price: '$15.99',
+    image: 'https://images.unsplash.com/photo-1547506508-1b0e4f5f1f76?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcdef1234567890',
+    affiliate_link: 'https://www.example-affiliate.com/track?product=plushdino'
+  },
+  {
+    id: 'p6',
+    title: 'Wireless Gaming Mouse',
+    description: 'Ergonomic RGB mouse with programmable buttons and high DPI.',
+    category: 'Tech & Gaming',
+    price: '$49.95',
+    image: 'https://images.unsplash.com/photo-1587202372775-7e2a66d9c6a6?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=11aa22bb33cc44dd55ee',
+    affiliate_link: 'https://www.example-affiliate.com/track?product=mouse'
+  }
+];
 
-    menuBtn.addEventListener('click', () => {
-      categoriesMenu.classList.toggle('active');
-      overlay.classList.toggle('active');
-    });
+// --- UI state & elements
+const productsGrid = document.getElementById('productsGrid');
+const resultsTitle = document.getElementById('resultsTitle');
+const resultsMeta = document.getElementById('resultsMeta');
+const resultCount = document.getElementById('resultCount');
+const emptyState = document.getElementById('emptyState');
+const searchBar = document.getElementById('searchBar');
+const categoriesList = document.getElementById('categoriesList');
+const categoriesDrawer = document.getElementById('categoriesDrawer');
+const openCategories = document.getElementById('openCategories');
+const closeCategories = document.getElementById('closeCategories');
+const showAll = document.getElementById('showAll');
+const ctaShop = document.getElementById('ctaShop');
+const heroCTA = document.getElementById('heroCTA');
+const yearEl = document.getElementById('year');
 
-    overlay.addEventListener('click', () => {
-      categoriesMenu.classList.remove('active');
-      overlay.classList.remove('active');
+yearEl.textContent = new Date().getFullYear();
+
+// helper: unique categories
+const categories = Array.from(new Set(products.map(p => p.category))).sort();
+
+// render category buttons
+function renderCategories(){
+  categoriesList.innerHTML = '';
+  categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn';
+    btn.textContent = cat;
+    btn.addEventListener('click', () => {
+      applyFilter({category:cat});
+      closeDrawer();
     });
-  </script>
+    categoriesList.appendChild(btn);
+  });
+}
+renderCategories();
+
+// --- Search & filtering logic
+let activeFilter = { category: null, q: null };
+let lastRenderProducts = products.slice();
+
+function normalize(text){ return (text||'').toString().trim().toLowerCase(); }
+
+function filterProducts({q=null, category=null} = {}){
+  activeFilter.q = q !== null ? q : activeFilter.q;
+  activeFilter.category = category !== null ? category : activeFilter.category;
+
+  const qNorm = normalize(activeFilter.q);
+  let out = products.filter(p => {
+    if (activeFilter.category && p.category !== activeFilter.category) return false;
+    if (!qNorm) return true;
+    // search title, desc, category
+    const hay = normalize(p.title + ' ' + p.description + ' ' + p.category);
+    return hay.includes(qNorm);
+  });
+  lastRenderProducts = out;
+  renderProducts(out, qNorm);
+  return out;
+}
+
+function renderProducts(list, qNorm=''){
+  productsGrid.innerHTML = '';
+  if (!list.length){
+    emptyState.style.display = 'block';
+    resultCount.textContent = '0 results';
+    resultsMeta.textContent = 'No matching products';
+    resultsTitle.textContent = qNorm ? `Search results for "${qNorm}"` : 'No results';
+    return;
+  }
+  emptyState.style.display = 'none';
+  resultsTitle.textContent = qNorm ? `Search results for "${qNorm}"` : 'Top Picks';
+  resultsMeta.textContent = `${list.length} item${list.length>1 ? 's' : ''} found`;
+  resultCount.textContent = `${list.length} results`;
+
+  list.forEach(p => {
+    const card = document.createElement('article');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <img loading="lazy" alt="${escapeHtml(p.title)}" src="${p.image}">
+      <div>
+        <div class="product-meta">
+          <h4 class="product-title">${escapeHtml(p.title)}</h4>
+          <div style="font-weight:800">${p.price || ''}</div>
+        </div>
+        <p class="product-desc">${escapeHtml(p.description)}</p>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap" class="product-actions">
+          <button class="btn" data-id="${p.id}" onclick="openDetails('${p.id}')">Details</button>
+          <a class="btn btn-primary" href="${p.affiliate_link || '#'}" target="_blank" rel="noopener noreferrer" onclick="trackAffiliate('${p.id}')">Buy now</a>
+          <span style="margin-left:auto;font-size:12px;color:var(--muted)">${escapeHtml(p.category)}</span>
+        </div>
+      </div>
+    `;
+    productsGrid.appendChild(card);
+  });
+}
+
+// small helper - escape HTML
+function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+// initial render (randomized to feel dynamic)
+renderProducts(shuffleArray(products).slice(0,6));
+
+// search behavior
+searchBar.addEventListener('keypress', function(e){
+  if (e.key === 'Enter'){
+    const q = this.value.trim();
+    if (q.length === 0) return applyFilter({q: null});
+    applyFilter({q});
+    // update url so user can share results
+    const u = new URL(location.href);
+    u.searchParams.set('q', q);
+    history.replaceState({}, '', u);
+  }
+});
+
+// apply filter helper
+function applyFilter(opts){
+  filterProducts(opts);
+}
+
+// support query param on load
+function initFromQuery(){
+  const url = new URL(location.href);
+  const q = url.searchParams.get('q');
+  if (q){
+    searchBar.value = q;
+    applyFilter({q});
+    openResultsSection();
+  } else {
+    // default top picks: first 6
+    renderProducts(shuffleArray(products).slice(0,6));
+  }
+}
+initFromQuery();
+
+// categories drawer behavior
+openCategories.addEventListener('click', toggleDrawer);
+closeCategories.addEventListener('click', closeDrawer);
+showAll.addEventListener('click', () => {
+  activeFilter = {category: null, q: null};
+  searchBar.value = '';
+  renderProducts(products.slice(0,8));
+  closeDrawer();
+});
+
+function toggleDrawer(){
+  const open = categoriesDrawer.classList.toggle('open');
+  categoriesDrawer.setAttribute('aria-hidden', String(!open));
+  openCategories.setAttribute('aria-expanded', String(open));
+}
+function closeDrawer(){ categoriesDrawer.classList.remove('open'); categoriesDrawer.setAttribute('aria-hidden', 'true'); openCategories.setAttribute('aria-expanded','false'); }
+
+// CTA & Hero button behavior
+ctaShop.addEventListener('click', () => { openDrawer(); });
+heroCTA.addEventListener('click', () => { scrollToResults(); renderProducts(shuffleArray(products).slice(0,8)); });
+
+// open drawer helper
+function openDrawer(){ if (!categoriesDrawer.classList.contains('open')) toggleDrawer(); }
+
+// scroll helpers
+function scrollToResults(){ document.getElementById('resultsSection').scrollIntoView({behavior:'smooth'}); }
+function scrollToTop(e){ if (e) e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); }
+function openDetails(id){
+  const p = products.find(x=>x.id===id);
+  if (!p) return alert('Product not found');
+  // simple details modal using confirm (lightweight). Replace with real modal when needed.
+  const more = `${p.title}\n\n${p.description}\n\nPrice: ${p.price || '—'}\nCategory: ${p.category}\n\nOpen affiliate link?`;
+  if (confirm(more)){
+    window.open(p.affiliate_link || '#','_blank','noopener');
+  }
+}
+
+// analytics placeholder (you can integrate real analytics)
+function trackAffiliate(id){
+  console.log('Affiliate click', id, new Date().toISOString());
+  // you may insert tracking pixel, fetch to server, or other logic here
+}
+
+// small utilities
+function shuffleArray(arr){
+  const out = arr.slice();
+  for (let i = out.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+// simple keyboard shortcut: "/" to focus search
+window.addEventListener('keydown', (e)=>{
+  if (e.key === '/' && document.activeElement !== searchBar){
+    e.preventDefault();
+    searchBar.focus();
+  }
+});
+
+// click outside drawer to close
+document.addEventListener('click', (e)=>{
+  if (!categoriesDrawer.contains(e.target) && !openCategories.contains(e.target)){
+    closeDrawer();
+  }
+});
+
+// tiny UI: shuffle button
+document.getElementById('shuffleProducts').addEventListener('click', ()=>{
+  renderProducts(shuffleArray(products).slice(0,8));
+});
+
+// If user clicks back/forward updating q param, reflect in UI
+window.addEventListener('popstate', ()=>{ initFromQuery(); });
+
+// helper: open drawer (used by CTA)
+function openDrawer(){ if (!categoriesDrawer.classList.contains('open')) categoriesDrawer.classList.add('open'); categoriesDrawer.setAttribute('aria-hidden','false'); openCategories.setAttribute('aria-expanded','true'); }
+
+// Utility: open results when search used
+function openResultsSection(){ document.getElementById('resultsSection').scrollIntoView({behavior:'smooth'}); }
+
+// Accessibility: ensure main landmarks
+document.querySelector('main').setAttribute('role','main');
+
+// Preload images (optional small set)
+function preloadImages(){
+  products.slice(0,4).forEach(p=>{
+    const img = new Image();
+    img.src = p.image;
+  });
+}
+preloadImages();
+
+</script>
+
+</body>
+</html>
 </body>
 </html>
