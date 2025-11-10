@@ -525,7 +525,7 @@ function initFromQuery(){
     openResultsSection();
   } else {
     // default top picks: first 6
-    renderProducts(shuffleArray(products).slice(0,6));
+    renderProducts(products);
   }
 }
 initFromQuery();
